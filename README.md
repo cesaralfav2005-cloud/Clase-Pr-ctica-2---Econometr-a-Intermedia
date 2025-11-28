@@ -1,4 +1,4 @@
-# Clase-Pr-ctica-2---Econometr-a-Intermedia
+# Clase-Práctica 2: Econometría-Intermedia
 Integrantes del equipo:  
 1. César de Jesús Alfaro Villalobos 
 2. Nayhesli Galgania Hernández Gómez
@@ -19,8 +19,8 @@ Paso 1: Instalar paquetes
 
 # Installing packages
 
-install.packages("haven")
-install.packages("dplyr")
+<p> install.packages("haven") <br> 
+install.packages("dplyr") </p>
 install.packages("tidyr")
 install.packages("ggplot2")
 install.packages("estimatr")
