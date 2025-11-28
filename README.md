@@ -21,17 +21,17 @@ Paso 1: Instalar paquetes
 
 <p> install.packages("haven") <br> 
 install.packages("dplyr") </p>
-install.packages("tidyr")
-install.packages("ggplot2")
-install.packages("estimatr")
-install.packages("fixest")
-install.packages("AER")
-install.packages("car")
-install.packages("broom")
-install.packages("quantmod")
-install.packages("modelsummary")
-install.packages("lmtest")
-install.packages("MatchIt")
+install.packages("tidyr") </p>
+install.packages("ggplot2") </p>
+install.packages("estimatr") </p>
+install.packages("fixest") </p>
+install.packages("AER") </p>
+install.packages("car") </p>
+install.packages("broom") </p>
+install.packages("quantmod") </p>
+install.packages("modelsummary") </p>
+install.packages("lmtest") </p>
+install.packages("MatchIt") </p>
 
 Paso 2: Cargar Paquetes
 
