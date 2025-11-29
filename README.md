@@ -1,131 +1,154 @@
-# Clase-Práctica 2: Econometría-Intermedia
-Integrantes del equipo:  
+# Clase Práctica 2: Econometría-Intermedia
+*Integrantes del equipo:*  
 1. César de Jesús Alfaro Villalobos 
 2. Nayhesli Galgania Hernández Gómez
 3. Allan Moisés Juárez Sánchez 
 
-NOMBRE DEL DOCENTE
+**NOMBRE DEL DOCENTE:** *MSc. NORVIN ANTONIO DUARTE*
 
-# MSc. NORVIN ANTONIO DUARTE
+**GRUPO:** *3M1-EyN-S* 
 
-GRUPO
+**Fecha:** *29/11/2025*
 
-3M1-EyN-S
+# Paso 1: Instalar paquetes
+<table>
+<tr>
+<td align="center">
+Installing packages
+</td>
+</tr>
+</table>
 
-################################################################################
-Fecha: 28/11/2025 & 29/11/2025
+<p>install.packages("haven")<br>
+install.packages("dplyr")<br> 
+install.packages("tidyr")<br> 
+install.packages("ggplot2")<br> 
+install.packages("estimatr")<br> 
+install.packages("fixest")<br> 
+install.packages("AER")<br> 
+install.packages("car")<br> 
+install.packages("broom")<br> 
+install.packages("quantmod")<br> 
+install.packages("modelsummary")<br> 
+install.packages("lmtest")<br> 
+install.packages("MatchIt") 
 
-Paso 1: Instalar paquetes
+# Paso 2: Cargar Paquetes
+<table>
+<tr>
+<td align="center">
+Loading Packages
+</td>
+</tr>
+</table>
 
-# Installing packages
+<p>library(haven)<br>
+library(dplyr)<br>
+library(xtable)<br>
+library(stargazer)<br>
+library(MatchIt)<br>
+library(margins)<br>
+library(ggplot2)<br>
+library(tidyr)<br>
+library(estimatr)<br>
+library(fixest)<br>
+library(AER)<br>
+library(texreg)<br>
+library(broom)<br>
+library(sandwich)<br>
+library(Synth)<br>
+library(plm)<br>
+library(car)<br>
+library(quantmod)<br>
+library(modelsummary)<br>
+library(lmtest)<br>
 
-<p> install.packages("haven") <br> 
-install.packages("dplyr") </p>
-install.packages("tidyr") </p>
-install.packages("ggplot2") </p>
-install.packages("estimatr") </p>
-install.packages("fixest") </p>
-install.packages("AER") </p>
-install.packages("car") </p>
-install.packages("broom") </p>
-install.packages("quantmod") </p>
-install.packages("modelsummary") </p>
-install.packages("lmtest") </p>
-install.packages("MatchIt") </p>
+- *Cargar la base de datos de las variables principales*
 
-Paso 2: Cargar Paquetes
+**1. Variable Remesas**
+<p>library(readxl)<br>
+REMESAS_PARA_R <- read_excel("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/REMESAS PARA R.xlsx")<br>
+View(REMESAS_PARA_R)<br>                                                                                               
 
-# Loading Packages
+**2. Variable PIB Trimestral**
+<p>library(readr)<br>
+PIB_TRIMESTRAL_REAL_DE_NICARAGUA <- read_csv("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/PIB TRIMESTRAL REAL DE NICARAGUA.csv")<br>
+Rows: 73 Columns: 2<br>                                                                                           
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────<br>
+Delimiter: ","<br>
+chr (1): observation_date<br>
+dbl (1): rate<br>
 
-library(haven)
-library(dplyr)
-library(xtable)
-library(stargazer)
-library(MatchIt)
-library(margins)
-library(ggplot2)
-library(tidyr)
-library(estimatr)
-library(fixest)
-library(AER)
-library(texreg)
-library(broom)
-library(sandwich)
-library(Synth)
-library(plm)
-library(car)
-library(quantmod)
-library(modelsummary)
-library(lmtest)
+ℹ Use `spec()` to retrieve the full column specification for this data.<br>
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.<br>
+View(PIB_TRIMESTRAL_REAL_DE_NICARAGUA)<br>
 
-################################################################################
+**3. Variable Tasa de Desempleo Trimestral**
+library(readr)<br>
+TASA_DE_DESEMPLEO_TRIMESTRAL <- read_csv("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/TASA DE DESEMPLEO TRIMESTRAL.csv")<br>
+Rows: 73 Columns: 2                                                                                          
+── Column specification ───────────────────────────────────────────────────────────────────────────────────────<br>
+Delimiter: ","<br>
+dbl  (1): LNU04032231<br>
+date (1): observation_date<br>
 
-# Cargar la base de datos de las variables principales
-1. Variable Remesas
-library(readxl)
-REMESAS_PARA_R <- read_excel("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/REMESAS PARA R.xlsx")
-View(REMESAS_PARA_R)                                                                                               
+ℹ Use `spec()` to retrieve the full column specification for this data.<br>
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.<br>
+View(TASA_DE_DESEMPLEO_TRIMESTRAL)<br>
 
-2. Variable PIB Trimestral
-library(readr)
-PIB_TRIMESTRAL_REAL_DE_NICARAGUA <- read_csv("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/PIB TRIMESTRAL REAL DE NICARAGUA.csv")
-Rows: 73 Columns: 2                                                                                           
-── Column specification ──────────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): observation_date
-dbl (1): rate
+**4. Covariable: Se menciona posteriormente**
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-View(PIB_TRIMESTRAL_REAL_DE_NICARAGUA)
+###### Eliminando los datos omitidos o espacios en blanco tanto en las variables principales como en las covariables a usarse
 
-3. Variable Tasa de Desempleo Trimestral
-library(readr)
-TASA_DE_DESEMPLEO_TRIMESTRAL <- read_csv("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/TASA DE DESEMPLEO TRIMESTRAL.csv")
-Rows: 73 Columns: 2                                                                                           
-── Column specification ──────────────────────────────────────────────────────────────────────────────────────
-Delimiter: ","
-dbl  (1): LNU04032231
-date (1): observation_date
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-View(TASA_DE_DESEMPLEO_TRIMESTRAL)
-
-4. Covariable: Se menciona posteriormente
-
-# Eliminando los datos omitidos o espacios en blanco tanto en las variables principales como en las covariables a usarse
-
-# Cargar Covariables
+###### Cargar Covariables
 
 ## Covariable a usarse: Tipo de Cambio Nicaragüense##
-library(readxl)
-TIPO_DE_CAMBIO_DATOS <- read_excel("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/TIPO DE CAMBIO DATOS.xlsx")
-View(TIPO_DE_CAMBIO_DATOS)
-colnames(TIPO_DE_CAMBIO_DATOS)
-NEW_TIPO_DE_CAMBIO <- TIPO_DE_CAMBIO_DATOS[c("OBSERVACION","TIPO DE CAMBIO NIC")]
-View(NEW_TIPO_DE_CAMBIO)
-colnames(NEW_TIPO_DE_CAMBIO)
-rm(TIPO_DE_CAMBIO_DATOS)
+library(readxl)<br>
+TIPO_DE_CAMBIO_DATOS <- read_excel("~/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/TIPO DE CAMBIO DATOS.xlsx")<br>
+View(TIPO_DE_CAMBIO_DATOS)<br>
+colnames(TIPO_DE_CAMBIO_DATOS)<br>
+NEW_TIPO_DE_CAMBIO <- TIPO_DE_CAMBIO_DATOS[c("OBSERVACION","TIPO DE CAMBIO NIC")]<br>
+View(NEW_TIPO_DE_CAMBIO)<br>
+colnames(NEW_TIPO_DE_CAMBIO)<br>
+rm(TIPO_DE_CAMBIO_DATOS)<br>
 
-## Nota Aclaratoria: Se tomaron los datos desde el 2007 hasta el I Trimestre - 2025##
+## Nota Aclaratoria: *Se tomaron los datos desde el 2007 hasta el I Trimestre - 2025*
 
-Paso 3: Combinar las bases de datos junto con las covariables a trabajarse, una vez cargado todas las variables principales
+# Paso 3: Combinar las bases de datos junto con las covariables a trabajarse, una vez cargado todas las variables principales
 
-base_total <- cbind(REMESAS_PARA_R, TASA_DE_DESEMPLEO_TRIMESTRAL, PIB_TRIMESTRAL_REAL_DE_NICARAGUA, NEW_TIPO_DE_CAMBIO)
-View(base_total)
+base_total <- cbind(REMESAS_PARA_R, TASA_DE_DESEMPLEO_TRIMESTRAL, PIB_TRIMESTRAL_REAL_DE_NICARAGUA, NEW_TIPO_DE_CAMBIO)<br>
+View(base_total)<br>
 
 ## Eliminar las columnas que no son de utilidad en la nueva base de datos
 
-base_total_anuelaa <- base_total[c("Fechas","Nicaragua","LNU04032231","rate","TIPO DE CAMBIO NIC")]
-View(base_total_anuelaa)
-base_total_karolg <- base_total_anuelaa[c("Nicaragua","LNU04032231","rate","TIPO DE CAMBIO NIC")]
+base_total_anuelaa <- base_total[c("Fechas","Nicaragua","LNU04032231","rate","TIPO DE CAMBIO NIC")]<br>
+View(base_total_anuelaa)<br>
+base_total_karolg <- base_total_anuelaa[c("Nicaragua","LNU04032231","rate","TIPO DE CAMBIO NIC")]<br>
 
 ## Otra forma de visualizar los datos de las variables a emplearse
-attach(base_total_karolg)
-base_total_karolg
+attach(base_total_karolg)<br>
+base_total_karolg<br>
 
- Nicaragua LNU04032231  rate TIPO DE CAMBIO NIC
+| N° | Nicaragua | LNU04032231 | rate | TIPO DE CAMBIO NIC |
+|-----------|-----------|-----------|-----------|-----------|
+| 1  | Dato 1-2  | Dato 1-3  | Dato 1-4  | Dato 1-5  |
+| 2  | Dato 2-2  | Dato 2-3  | Dato 2-4  | Dato 2-5  |
+| 3  | Dato 3-2  | Dato 3-3  | Dato 3-4  | Dato 3-5  |
+|  4  | Dato 4-2  | Dato 4-3  | Dato 4-4  | Dato 4-5  |
+| 5  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| 6  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| Dato 5-1  | Dato 5-2  | Dato 5-3  | Dato 5-4  | Dato 5-5  |
+| ...       | ...       | ...       | ...       | ...       |
+| Dato 73-1 | Dato 73-2 | Dato 73-3 | Dato 73-4 | Dato 73-5 |
+
+
 1      55.03         5.9  3.70           18.11280
 2      60.37         5.8  4.85           18.33320
 3      63.23         9.4  5.24           18.55960
@@ -200,12 +223,14 @@ base_total_karolg
 72    471.60         5.4  3.38           36.62430
 73    480.43         3.4  2.98           36.62430
 
-Nota: Esta es la base de datos sin tomar en cuenta las fechas trimestrales con su respectivo control
+*Nota:* **Esta es la base de datos sin tomar en cuenta las fechas trimestrales con su respectivo control**
 
-Base de datos con la fecha trimestral
-attach(base_total_anuelaa)
-base_total_anuelaa
-     Fechas Nicaragua LNU04032231  rate
+**Base de datos con la fecha trimestral<br>
+
+attach(base_total_anuelaa)<br>
+base_total_anuelaa<br>
+
+  Fechas Nicaragua LNU04032231  rate
 1    2007-I     55.03         5.9  3.70
 2   2007-II     60.37         5.8  4.85
 3  2007-III     63.23         9.4  5.24
@@ -362,11 +387,10 @@ getwd()
 
 [1] "C:/Users/AlfaroVillalobos/Documents/CLASES UNIVERSITARIAS - IEN/ECONOMETRÍA RSTUDIO/Econometria tarea 2/CLASE PRACTICA 2 ECONOMETRIA"
 
-################################################################################
 # Paso 5: Estimar el modelo MCO (OLS)
-################################################################################
 
-## Nota Aclaratoria de las Variables ##
+
+## Nota Aclaratoria de las Variables
 
 # 1. Nicaragua = Ingreso de las remesas en Nicaragua (R). 
 # 2. LNU04032231 = Tasa de desempleo trimestral (Z). 
@@ -374,28 +398,28 @@ getwd()
 # 4. TIPO DE CAMBIO NIC = Tipo de cambio oficial de la moneda nacional con respecto al dólar. 
 
 # Estimando MCO
-RegrMult <- lm(`rate` ~ `Nicaragua` + `TIPO DE CAMBIO NIC` + `LNU04032231`, data = base_total_karolg)
-RegrMult
+RegrMult <- lm(`rate` ~ `Nicaragua` + `TIPO DE CAMBIO NIC` + `LNU04032231`, data = base_total_karolg)<br>
+RegrMult<br>
 
-Call:
-lm(formula = rate ~ Nicaragua + `TIPO DE CAMBIO NIC` + LNU04032231, 
-    data = base_total_karolg)
+Call:<br>
+lm(formula = rate ~ Nicaragua + `TIPO DE CAMBIO NIC` + LNU04032231,<br> 
+    data = base_total_karolg)<br>
 
-Coefficients:
+Coefficients:<br>
          (Intercept)             Nicaragua  `TIPO DE CAMBIO NIC`           LNU04032231  
            12.753229              0.009054             -0.314456             -0.209376  
 
-summary(RegrMult)
+summary(RegrMult)<br>
 
-Call:
-lm(formula = rate ~ Nicaragua + `TIPO DE CAMBIO NIC` + LNU04032231, 
-    data = base_total_karolg)
+Call:<br>
+lm(formula = rate ~ Nicaragua + `TIPO DE CAMBIO NIC` + LNU04032231, <br>
+    data = base_total_karolg)<br>
 
-Residuals:
+Residuals:<br>
      Min       1Q   Median       3Q      Max 
 -11.9554  -1.0166   0.4231   1.9962  16.1519 
 
-Coefficients:
+Coefficients:<br>
                       Estimate Std. Error t value Pr(>|t|)  
 (Intercept)          12.753229   4.945975   2.579   0.0121 *
 Nicaragua             0.009054   0.007260   1.247   0.2166  
@@ -404,9 +428,9 @@ LNU04032231          -0.209376   0.139855  -1.497   0.1389
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 4.451 on 69 degrees of freedom
-Multiple R-squared:  0.05386,	Adjusted R-squared:  0.01272 
-F-statistic: 1.309 on 3 and 69 DF,  p-value: 0.2784
+Residual standard error: 4.451 on 69 degrees of freedom<br>
+Multiple R-squared:  0.05386,	Adjusted R-squared:  0.01272<br> 
+F-statistic: 1.309 on 3 and 69 DF,  p-value: 0.2784<br>
 
 Interpretación: El modelo de regresión lineal múltiple por MCO indica que, en su conjunto, las variables explicativas (remesas, tipo de cambio y desempleo) tienen una capacidad predictiva muy limitada sobre el PIB real de Nicaragua, explicando solo el 5.39% de su variabilidad (R² = 0.05386), mientras que ninguna de las variables individuales muestra significancia estadística al nivel convencional del 5% -especialmente las remesas (p = 0.217)-, lo que sugiere problemas fundamentales de especificación, muy probablemente por endogeneidad no controlada donde factores omitidos o bidireccionalidad entre remesas y PIB distorsionan las estimaciones, haciendo insostenible cualquier inferencia causal sobre el efecto de las remesas mediante este enfoque MCO.
 
@@ -597,13 +621,13 @@ Interpretación: Este gráfico de comparación visual entre los coeficientes del
 ## Respectivas Conclusiones ##
 Contestando las preguntas de la clase práctica
 
-Pregunta 1: Estime el efecto de las remesas utilizando OLS y IV - TSLS. Compare. ¿Cuál es preferible?
-En el modelo de Mínimos Cuadrados Ordinarios (OLS), el coeficiente para las remesas ("Nicaragua") es de 0.009, con un valor p de 0.2166, lo que indica que no es estadísticamente significativo a niveles convencionales (p < 0.05). El modelo OLS tiene un R-cuadrado bajo (0.054) y un estadístico F no significativo (p = 0.2784), sugiriendo que el modelo en conjunto no explica adecuadamente la variación en la tasa de crecimiento del PIB. Además, las pruebas de Durbin-Watson (DW = 0.7029, p = 8.581e-12) y Breusch-Godfrey (LM = 30.808, p = 2.849e-08) revelan autocorrelación positiva en los residuos, violando un supuesto clave de OLS y haciendo que las estimaciones sean ineficientes y los errores estándar potencialmente sesgados. Por otro lado, en el modelo de Variables Instrumentales (IV-TSLS), que utiliza la tasa de desempleo en el sector construcción de EE.UU. como instrumento, el coeficiente para las remesas instrumentadas ("Nicaragua_hat") es -0.133, pero tampoco es significativo (p = 0.166). El modelo IV tiene un R-cuadrado aún más bajo (0.033) y un estadístico F no significativo (p = 0.3143). Aunque el instrumento es fuerte (estadístico F de la primera etapa = 53.28), la falta de significancia en el coeficiente de las remesas y los problemas de autocorrelación en OLS sugieren que IV-TSLS podría ser teóricamente preferible si se asume endogeneidad en las remesas, pero en la práctica, ninguno de los modelos proporciona evidencia sólida de un efecto significativo de las remesas sobre el crecimiento del PIB. Dada la autocorrelación en OLS, IV-TSLS es preferible para evitar sesgos por endogeneidad, aunque los resultados no sean concluyentes.
+**Pregunta 1: Estime el efecto de las remesas utilizando OLS y IV - TSLS. Compare. ¿Cuál es preferible?**
+R = En el modelo de Mínimos Cuadrados Ordinarios (OLS), el coeficiente para las remesas ("Nicaragua") es de 0.009, con un valor p de 0.2166, lo que indica que no es estadísticamente significativo a niveles convencionales (p < 0.05). El modelo OLS tiene un R-cuadrado bajo (0.054) y un estadístico F no significativo (p = 0.2784), sugiriendo que el modelo en conjunto no explica adecuadamente la variación en la tasa de crecimiento del PIB. Además, las pruebas de Durbin-Watson (DW = 0.7029, p = 8.581e-12) y Breusch-Godfrey (LM = 30.808, p = 2.849e-08) revelan autocorrelación positiva en los residuos, violando un supuesto clave de OLS y haciendo que las estimaciones sean ineficientes y los errores estándar potencialmente sesgados. Por otro lado, en el modelo de Variables Instrumentales (IV-TSLS), que utiliza la tasa de desempleo en el sector construcción de EE.UU. como instrumento, el coeficiente para las remesas instrumentadas ("Nicaragua_hat") es -0.133, pero tampoco es significativo (p = 0.166). El modelo IV tiene un R-cuadrado aún más bajo (0.033) y un estadístico F no significativo (p = 0.3143). Aunque el instrumento es fuerte (estadístico F de la primera etapa = 53.28), la falta de significancia en el coeficiente de las remesas y los problemas de autocorrelación en OLS sugieren que IV-TSLS podría ser teóricamente preferible si se asume endogeneidad en las remesas, pero en la práctica, ninguno de los modelos proporciona evidencia sólida de un efecto significativo de las remesas sobre el crecimiento del PIB. Dada la autocorrelación en OLS, IV-TSLS es preferible para evitar sesgos por endogeneidad, aunque los resultados no sean concluyentes.
 
-Pregunta 2: ¿Qué supuestos son relevantes para preferir IV - TSLS? ¿Se cumplen? Argumente.
-Los supuestos clave para preferir IV-TSLS sobre OLS son: (1) Relevancia del instrumento: el instrumento debe estar correlacionado con la variable endógena (remesas). En este caso, el estadístico F de la primera etapa es 53.28, muy por encima de 10, lo que indica que el instrumento (tasa de desempleo en el sector construcción de EE.UU.) es fuerte y cumple con el supuesto de relevancia. (2) Exogeneidad del instrumento: el instrumento no debe estar correlacionado con el término de error en la ecuación principal. Esto no puede testearse directamente, pero teóricamente, el desempleo sectorial en EE.UU. afecta las remesas a través de los ingresos de los trabajadores nicaragüenses en ese sector, sin influir directamente en el crecimiento del PIB de Nicaragua, especialmente al incluir controles como el tipo de cambio. Sin embargo, la posible omisión de variables relevantes (como el crecimiento del PIB de EE.UU.) podría violar este supuesto. (3) Identificación: debe haber al menos un instrumento por variable endógena, lo que se cumple aquí. Además, la endogeneidad de las remesas es un supuesto implícito; aunque no se testea formalmente (el test de Hausman no pudo realizarse por singularidades), la autocorrelación en los residuos de OLS sugiere posibles omisiones que justifican el uso de IV. En conclusión, el supuesto de relevancia se cumple claramente, pero la exogeneidad no puede verificarse plenamente, por lo que IV-TSLS es preferible con cautela.
+**Pregunta 2: ¿Qué supuestos son relevantes para preferir IV - TSLS? ¿Se cumplen? Argumente.**
+R = Los supuestos clave para preferir IV-TSLS sobre OLS son: (1) Relevancia del instrumento: el instrumento debe estar correlacionado con la variable endógena (remesas). En este caso, el estadístico F de la primera etapa es 53.28, muy por encima de 10, lo que indica que el instrumento (tasa de desempleo en el sector construcción de EE.UU.) es fuerte y cumple con el supuesto de relevancia. (2) Exogeneidad del instrumento: el instrumento no debe estar correlacionado con el término de error en la ecuación principal. Esto no puede testearse directamente, pero teóricamente, el desempleo sectorial en EE.UU. afecta las remesas a través de los ingresos de los trabajadores nicaragüenses en ese sector, sin influir directamente en el crecimiento del PIB de Nicaragua, especialmente al incluir controles como el tipo de cambio. Sin embargo, la posible omisión de variables relevantes (como el crecimiento del PIB de EE.UU.) podría violar este supuesto. (3) Identificación: debe haber al menos un instrumento por variable endógena, lo que se cumple aquí. Además, la endogeneidad de las remesas es un supuesto implícito; aunque no se testea formalmente (el test de Hausman no pudo realizarse por singularidades), la autocorrelación en los residuos de OLS sugiere posibles omisiones que justifican el uso de IV. En conclusión, el supuesto de relevancia se cumple claramente, pero la exogeneidad no puede verificarse plenamente, por lo que IV-TSLS es preferible con cautela.
 
-Pregunta 3: ¿Por qué cree que se sugiere utilizar la tasa de desempleo sectorial de US y no la tasa de desempleo de todos los sectores (tasa de desempleo)?
-Se sugiere utilizar la tasa de desempleo sectorial de la construcción en EE.UU. en lugar de la tasa de desempleo general porque los trabajadores nicaragüenses en EE.UU. están concentrados en sectores específicos, como la construcción, donde las fluctuaciones en el empleo afectan directamente sus ingresos y, por ende, las remesas que envían a Nicaragua. El instrumento sectorial es más relevante para capturar variaciones en las remesas, ya que la tasa de desempleo general incluye sectores no relacionados con la migración nicaragüense, diluyendo su poder explicativo. Además, el instrumento sectorial probablemente sea más exógeno: el desempleo en la construcción está influenciado por factores específicos (como la actividad inmobiliaria) que no afectan directamente el crecimiento de Nicaragua, reduciendo el riesgo de correlación con omisiones en el error. La tasa de desempleo general, en cambio, podría correlacionarse con shocks macroeconómicos globales que impactan a Nicaragua a través de canales distintos a las remesas (como comercio o inversión), violando el supuesto de exogeneidad. Así, el instrumento sectorial ofrece una mejor combinación de relevancia y exogeneidad para identificar el efecto causal de las remesas.
+**Pregunta 3: ¿Por qué cree que se sugiere utilizar la tasa de desempleo sectorial de US y no la tasa de desempleo de todos los sectores (tasa de desempleo)?**
+R = Se sugiere utilizar la tasa de desempleo sectorial de la construcción en EE.UU. en lugar de la tasa de desempleo general porque los trabajadores nicaragüenses en EE.UU. están concentrados en sectores específicos, como la construcción, donde las fluctuaciones en el empleo afectan directamente sus ingresos y, por ende, las remesas que envían a Nicaragua. El instrumento sectorial es más relevante para capturar variaciones en las remesas, ya que la tasa de desempleo general incluye sectores no relacionados con la migración nicaragüense, diluyendo su poder explicativo. Además, el instrumento sectorial probablemente sea más exógeno: el desempleo en la construcción está influenciado por factores específicos (como la actividad inmobiliaria) que no afectan directamente el crecimiento de Nicaragua, reduciendo el riesgo de correlación con omisiones en el error. La tasa de desempleo general, en cambio, podría correlacionarse con shocks macroeconómicos globales que impactan a Nicaragua a través de canales distintos a las remesas (como comercio o inversión), violando el supuesto de exogeneidad. Así, el instrumento sectorial ofrece una mejor combinación de relevancia y exogeneidad para identificar el efecto causal de las remesas.
 
-                                                                          MUCHÍSIMAS GRACIAS POR SU ATENCIÓN!
+<h1 align="center">MUCHÍSIMAS GRACIAS POR SU ATENCIÓN!</h1>
